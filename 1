@@ -1,0 +1,66 @@
+import sqlite3
+
+conn = sqlite3.connect('Animal_Kingdom.db')
+cursor = conn.cursor()
+
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS Animals (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Назва_звіра TEXT,
+    Тип_звіра TEXT
+)
+''')
+conn.commit()
+animals_to_insert = [
+    ("Лев", "Ссавець"),
+    ("Крокодил", "Плазун"),
+    ("Орел", "Птах"),
+    ("Морська черепаха", "Плазун"),
+    ("Мавпа", "Ссавець")
+]
+cursor.executemany("INSERT INTO Animals (Назва_звіра, Тип_звіра) VALUES (?, ?)", animals_to_insert)
+conn.commit()
+print("Звірі типу 'Ссавець':")
+cursor.execute("SELECT Назва_звіра, Тип_звіра FROM Animals WHERE Тип_звіра = 'Ссавець'")
+mammals = cursor.fetchall()
+for row in mammals:
+    print(row)
+    print("\nВсі записи про звірів:")
+    cursor.execute("SELECT * FROM Animals")
+    all_animals = cursor.fetchall()
+    for row in all_animals:
+        print(row)
+
+    conn.close()
+    import sqlite3
+
+    conn = sqlite3.connect('Fruit_Basket.db')
+    cursor = conn.cursor()
+
+    cursor.execute('''
+CREATE TABLE IF NOT EXISTS Fruits(
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Назва_фрукта TEXT,
+     Колір TEXT
+)
+''')
+conn.commit()
+fruits_to_insert = [
+    ("Яблуко", "Червоне"),
+    ("Банан", "Жовтий"),
+    ("Апельсин", "Помаранчевий")
+]
+cursor.executemany("INSERT INTO Fruits (Назва_фрукта, Колір) VALUES (?, ?)", fruits_to_insert)
+conn.commit()
+print("Фрукти жовтого кольору:")
+cursor.execute("SELECT Назва_фрукта, Колір FROM Fruits WHERE Колір = 'Жовтий'")
+yellow_fruits = cursor.fetchall()
+for row in yellow_fruits:
+    print(row)
+    print("\nВсі записи про фрукти:")
+    cursor.execute("SELECT * FROM Fruits")
+    all_fruits = cursor.fetchall()
+    for row in all_fruits:
+        print(row)
+
+    conn.close()
